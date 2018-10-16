@@ -1,38 +1,46 @@
 <pre> <!-- oznacza tekst preformatowany -->
 <?php
 
-//deklarujemy sobie led'a
-//język php jest słabo typowany
-//deklarujemy jako wylaczony
-$led = false;
+//deklarujemy sobie kolorowego led'a
+//deklarujemy kolor jako skladowa RGB 0-255
+$led = array(
+    'R' => 0,
+    'G' => 0,
+    'B' => 0,
+);
+//dioda jest wylaczona
 
 var_dump($led);
 
-function przelaczLed($led) {
-    //zmienia wartosc led ale tylko wewnatrz funkcji
-    $led = !$led;
-}
-
-function przelaczLed2() {
-    //zmienia wartość led globalnie (tego z 7 linijki)
-    global $led;
-    $led = !$led;
-}
-
-function przelaczLed3(&$led) {
-    //& oznacza przeslanie przez referencje czyli 
-    //pracujemy na orginalnej zmiennej
-    $led = !$led;
-}
-function przelaczLed4($led) {
-    //zwraca przeciwienstwo
-    return !$led;
-}
-
-przelaczLed3($led);
+// w jednej zmiennej 3 wartosci
+$led['R'] += 125;
+$led['B'] += 125;
 
 var_dump($led);
 
-$led = przelaczLed4($led);
+//dodajemy element tablicy
+$led['wlaczony'] = true;
+
+var_dump($led);
+
+function pokazKolorHTML($led){
+    $bufor = "#";
+    $bufor .= zamienNaHex($led['R']);
+    $bufor .= zamienNaHex($led['G']);
+    $bufor .= zamienNaHex($led['B']);
+    return $bufor;
+}
+
+function zamienNaHex($liczba) {
+    $sz = floor($liczba / 16);
+    $reszta = $liczba % 16;
+    $literki = array(10 => 'A', 11 => 'B', 12 => 'C',
+                        13 => 'D', 14 => 'E', 15 => 'F');
+    if($sz > 9) $sz = $literki[$sz];
+    if($reszta > 9) $reszta = $literki[$reszta];
+    return $sz.$reszta; //zwracamy ilosc szesnastek i jedynek
+}
+
+echo pokazKolorHTML($led);
 
 ?>
