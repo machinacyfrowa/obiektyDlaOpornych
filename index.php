@@ -3,41 +3,36 @@
 
 //deklarujemy sobie led'a
 //język php jest słabo typowany
-
-$led;
-
-//co jest w zmiennej led?
-
-echo "<br>var_dump:";
-var_dump($led);
-echo "<br>print_r:";
-print_r($led);
-echo "<br>gettype:";
-echo gettype($led);
-
-
-//cały czas dostajemy komunikat undefinded
-
-//deklarujemy wartosc led
-echo "<br>ustawiam true...";
-$led = true; //led się świeci
-
-echo "<br>var_dump:";
-var_dump($led);
-echo "<br>print_r:";
-print_r($led);
-echo "<br>gettype:";
-echo gettype($led);
-echo "<br>zmieniam na false...";
+//deklarujemy jako wylaczony
 $led = false;
 
-echo "<br>var_dump:";
 var_dump($led);
-echo "<br>print_r:";
-print_r($led);
-echo "<br>gettype:";
-echo gettype($led);
 
-//zamien na odwrotny
-$led = !$led;
+function przelaczLed($led) {
+    //zmienia wartosc led ale tylko wewnatrz funkcji
+    $led = !$led;
+}
+
+function przelaczLed2() {
+    //zmienia wartość led globalnie (tego z 7 linijki)
+    global $led;
+    $led = !$led;
+}
+
+function przelaczLed3(&$led) {
+    //& oznacza przeslanie przez referencje czyli 
+    //pracujemy na orginalnej zmiennej
+    $led = !$led;
+}
+function przelaczLed4($led) {
+    //zwraca przeciwienstwo
+    return !$led;
+}
+
+przelaczLed3($led);
+
+var_dump($led);
+
+$led = przelaczLed4($led);
+
 ?>
